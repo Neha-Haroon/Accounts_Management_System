@@ -1,0 +1,145 @@
+<% layout('layouts/boilerplate')%>
+
+
+<h2>
+    <%= flag %> Trial Balance
+</h2>
+
+<table>
+    <thead>
+        <tr>
+            <!-- <th>S. No.</th> -->
+            <th>Major Heads</th>
+            <th>Accounts Ids</th>
+            <th>Accounts & Explanations</th>
+            <th>Debits</th>
+            <th>Credits</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <!-- INITALIZATION FOR TRAIL BALANCE SHEET -->
+        <% let credit_sum_trial_balance = 0 %>
+        <% let debit_sum_trial_balance = 0 %>
+
+
+        <% for (let account of accounts) { %>
+        <!--run time calculate sum debit  and credit amount in an account according to flag  -->
+        <!-- FOR DEBIT  -->
+        <!-- temp var for sum of accounts of a specific flag -->
+        <% let sum_debit_of_account_on_flag=0 %>
+        <% sum_debit_of_account_on_flag += account.initial_Debited_Amount %>
+
+        <!-- for all entries in this flag -->
+        <% for (entry of entries) {%>
+
+        <!-- if the entry is of this account  add to sum  -->
+        <% if (entry.account_name === account.account_Name ) { %>
+        <% sum_debit_of_account_on_flag +=entry.debit%>
+        <%} %>
+
+        <% } %>
+
+        <!-- FOR CREDIT  -->
+        <!-- temp var for sum of accounts of a specific flag -->
+        <% let sum_credit_of_account_on_flag=0 %>
+        <% sum_credit_of_account_on_flag += account.initial_Credited_Amount %>
+
+        <!-- for all entriesin this flag -->
+        <% for (entry of entries) {%>
+
+        <!-- if the entry is of this account  add to sum  -->
+        <% if (entry.account_name === account.account_Name) {  %>
+        <% sum_credit_of_account_on_flag +=entry.credit%>
+        <%} %>
+        <% } %>
+
+        <tr>
+            <td>
+                <%= account.major_head %>
+            </td>
+
+            <td><a href="/accounts/<%=account._id%>">
+                    <%= account.account_ID %>
+                </a>
+            </td>
+
+            <td>
+                <%= account.account_Name %>
+            </td>
+            <td>
+                <%= sum_debit_of_account_on_flag%>
+                <%# print debit %>
+
+                <% debit_sum_trial_balance += sum_debit_of_account_on_flag %>
+                <%# add to sum %>
+            </td>
+            <td>
+                <%= sum_credit_of_account_on_flag%>
+                <%# print creidt %>
+
+                <% credit_sum_trial_balance += sum_credit_of_account_on_flag %>
+                <%# add to sum %>
+            </td>
+        </tr>
+        <% } %>
+
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Total Balance:</td>
+            <td></td>
+            <td>
+                <%= debit_sum_trial_balance %>
+            </td>
+            <td>
+                <%= credit_sum_trial_balance %>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+<br>
+<% let balance = debit_sum_trial_balance %>
+<h3><%= flag %> Entry trial balance = <%= balance%></h3>
+
+<br>
+<% if (debit_sum_trial_balance === credit_sum_trial_balance){ %>
+<h2 class="success">balanced</h2>
+<%} else { %>
+<h2 class="danger">not balanced</h2>
+<% } %>
+</h2>
+
+
+<h2>Submit balance to Company</h2>
+<form action="/companies/<%=company._id%>?_method=PUT" method="POST">
+
+    <% if (flag==='normal') { %>
+    <!-- normal_trial_balance -->
+
+    <label for="normal_trial_balance">Normal Trial Balance: </label>
+    <input type="number" name="normal_trial_balance" id="normal_trial_balance" value="<%= balance %>">
+
+    <% } else if (flag==='adjustment'){ %>
+    <!-- post_adjustment_trial_balance -->
+
+    <label for="post_adjustment_trial_balance">Normal Trial Balance: </label>
+    <input type="number" name="post_adjustment_trial_balance" id="post_adjustment_trial_balance" value="<%= balance %>">
+
+
+    <% } else{ %>
+    <!-- post_closing_trial_balance -->
+
+    <label for="post_closing_trial_balance">Normal Trial Balance: </label>
+    <input type="number" name="post_closing_trial_balance" id="post_closing_trial_balance" value="<%= balance %>">
+
+
+    <% } %>
+
+
+
+    <button>Save</button>
+</form>

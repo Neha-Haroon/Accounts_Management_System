@@ -1,0 +1,49 @@
+<% layout('layouts/boilerplate')%>
+
+    <h2> Single Entry</h2>
+    <table>
+        <thead>
+            <tr>
+                <th> S. no. </th>
+                <th> Flag </th>
+                <th> Date </th>
+                <th> entries & Explanation </th>
+                <th> Debit </th>
+                <th> Credit </th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>
+                    <%= entry.entry_ID %>
+                </td>
+
+                <td><a href="/entries?major_head=<%=entry.flag %>">
+                        <%=entry.flag %>
+                    </a>
+                </td>
+
+                <td>
+                    <%= entry.date %>
+
+                </td>
+
+                <td>
+                    $<%= entry.debit %>
+                </td>
+
+                <td>
+                    $<%= entry.credit %>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <a href="/entries/">All Entries</a>
+    <a href="/entries/<%=entry._id%>/edit">Edit Entry</a>
+    <form action="/entries/<%=entry._id%>?_method=DELETE" method="POST">
+        <button>Delete</button>
+    </form>

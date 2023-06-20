@@ -1,0 +1,20 @@
+<% layout('layouts/boilerplate')%>
+<h2>New Company</h2>
+
+
+<form action="/companies" method="POST" class="form">
+
+
+    <label for="company_ID"> Company No.:</label>
+
+    <input type="number" id="company_ID" name="company_ID" placeholder="Company No.">
+    <!-- ============= S. NO.============= -->
+
+    <br>
+    <label for="company_Name"> Company Name.:</label>
+    <input type="text" id="company_Name" name="company_Name" placeholder="company_Name">
+
+    <br><br>
+    <button>Add Company</button>
+
+</form>

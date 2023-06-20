@@ -1,0 +1,69 @@
+<% layout('layouts/boilerplate')%>
+
+<a href="/accounts/new">New Account</a>
+<h2> All Accounts</h2>
+<table>
+    <thead>
+        <tr>
+            <th>account ID</th>
+            <th>account Name</th>
+            <th>company Name</th>
+            <th>major head</th>
+            <th>sum Debited Amount</th>
+            <th>sum_ Credited Amount</th>
+            <th>status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% for (let account of Accounts) { %>
+
+        <tr>
+            <td>
+                <%= account.account_ID %>
+            </td>
+
+            <td><a href="/accounts/<%=account._id%>">
+                    <%= account.account_Name %>
+                </a>
+            </td>
+
+            <td>
+                <%= account.company_name %>
+            </td>
+
+            <td><a href="/accounts?major_head=<%=account.major_head %>">
+                    <%= account.major_head %></a>
+            </td>
+
+            <td>
+                <%= account.sum_Debited_Amount %>
+            </td>
+
+            <td>
+                <%= account.sum_Credited_Amount %>
+            </td>
+            <td>
+                <% if (account.isActive ==true) {%>
+                Active
+                <% } else {%>
+                Non Active
+                <% } %>
+            </td>
+
+            <td><a href="/accounts/<%=account._id%>/edit">Edit</a></td>
+            <td>
+                <form action="/accounts/<%=account._id%>?_method=CLOSE" method="POST">
+                    <button>Close</button>
+                </form>
+            </td>
+            <td>
+                <form action="/accounts/<%=account._id%>?_method=DELETE" method="POST">
+                    <button>Delete</button>
+                </form>
+            </td>
+        </tr>
+        <% } %>
+
+    </tbody>
+</table>

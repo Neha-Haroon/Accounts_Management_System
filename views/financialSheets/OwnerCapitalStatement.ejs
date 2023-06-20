@@ -1,0 +1,82 @@
+<% layout('layouts/boilerplate')%>
+<% let beginning_oc_balance = 0 %>
+<% let owner_withdrawl = 0 %>
+<% let net_income = company.net_income_from_statment %>
+<% let ending_oc_balance = 0 %>
+
+
+<h2>Owner-Capital Statement </h2>
+
+<table>
+    <tr>
+        <td>Beginning Balance of Owner Capital</td>
+        <td>
+            <% if ( owner_capital_account.sum_Debited_Amount > owner_capital_account.sum_Credited_Amount) { %>
+            $
+            <%= beginning_oc_balance =  owner_capital_account.sum_Debited_Amount - owner_capital_account.sum_Credited_Amount%>
+            <% } else {%>
+            $
+            <%= beginning_oc_balance = owner_capital_account.sum_Credited_Amount -  owner_capital_account.sum_Debited_Amount  %>
+            <% } %>
+        </td>
+    </tr>
+
+    <tr>
+        <td>( Less ) Owner Withdrawal</td>
+        <td>
+            <% if ( owner_withdrawl_account.sum_Debited_Amount > owner_withdrawl_account.sum_Credited_Amount) { %>
+            $
+            <%= owner_withdrawl =  owner_withdrawl_account.sum_Debited_Amount - owner_withdrawl_account.sum_Credited_Amount%>
+            <% } else {%>
+            $
+            <%= owner_withdrawl =  owner_withdrawl_account.sum_Debited_Amount - owner_withdrawl_account.sum_Credited_Amount %>
+            <% } %>
+    </tr>
+
+    <tr>
+        <td> ( Add ) Net Income</td>
+
+        <% if (net_income > 0){ %>
+        <td class="success">$ <%= net_income%></td>
+        <%} else { %><td class="danger">$ <%= net_income%></td>
+        <% } %>
+
+    </tr>
+
+
+
+
+    <tr>
+        <td>Ending Balance of Owner Capital</td>
+
+        <% ending_oc_balance = beginning_oc_balance  - owner_withdrawl + (net_income) %>
+
+        <% if (ending_oc_balance > beginning_oc_balance){ %>
+        <td class="success">$ <%= ending_oc_balance%></td>
+        <%} else { %>
+        <td class="danger">$ <%= ending_oc_balance%></td>
+        <% } %>
+
+    </tr>
+</table>
+<br>
+<h3>Ending Balance of Owner Capital = <%= ending_oc_balance%></h3>
+
+
+<% if (ending_oc_balance > 0){ %>
+<h2 class="success">Profit</h2>
+<%} else { %>
+<h2 class="danger">Loss</h2>
+<% } %>
+</h2>
+
+<br>
+<h2>Submit owner capital to Company</h2>
+<form action="/companies/<%=company._id%>?_method=PUT" method="POST">
+
+    <label for="owner_capital_from_statement">owner capital</label>
+    <input type="number" name="owner_capital_from_statement" id="owner_capital_from_statement"
+        value="<%= ending_oc_balance %>">
+
+    <button>Save</button>
+</form>

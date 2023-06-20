@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,
+        thead,
+        tbody {
+            border: .5px solid black
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>S. no.</th>
+                <th>DATE</th>
+                <th>FLAG</th>
+                <th>MAJOR HEAD</th>
+                <th>ACCOUNT ID</th>
+                <th>DEBIT</th>
+                <th>CREDIT</th>
+            </tr>
+        </thead>
+        <tbody>
+            <form action="">
+                <tr> <!-- 1 ENTRY -->
+
+                    <td rowspan="2">1.</td><!-- ============= S. NO.============= -->
+
+                    <td><input type="date" name="date" id="date"></td> <!-- ============= DATE ============= -->
+
+                    <td> <!-- ============= FLAG ============= -->
+                        <input type="radio" id="normal-entry" name="flag" value="normal">
+                        <label for="normal-entry">N</label><br>
+
+                        <input type="radio" id="adjustment-entry" name="flag" value="adjustment">
+                        <label for="adjustment-entry">A</label><br>
+
+                        <input type="radio" id="closing-entry" name="flag" value="closing">
+                        <label for="closing-entry">C</label>
+                    </td>
+                    <!-- ============= DEBIT ============= -->
+
+                    <td> <!-- ============= MAJOR HEAD ============= -->
+
+                        <select id="major_head" name="major_head">
+                            <option value="asset">Asset</option>
+                            <option value="liability">Liability</option>
+                            <option value="owner_equity">Owner Equity</option>
+                            <option value="revenue">Revenue</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                    </td>
+                    <td><input type="number"></td> <!-- ACCOUNT ID -->
+                    <td><input id="debit" type="number"></td> <!-- DEBIT -->
+
+                    <!-- ============= CREDIT ============= -->
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td> <!-- ============= MAJOR HEAD ============= -->
+
+                        <select id="major_head" name="major_head">
+                            <option value="asset">Asset</option>
+                            <option value="liability">Liability</option>
+                            <option value="owner_equity">Owner Equity</option>
+                            <option value="revenue">Revenue</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                    </td>
+                    <td><input type="number"></td> <!-- ACCOUNT ID -->
+                    <td></td>
+                    <td><input id="debit" type="number"></td> <!-- CREDIT -->
+                </tr>
+
+
+            </form>
+        </tbody>
+    </table>
+
+
+    You Can Fullfill your requirement without using jquery just Paste this Code inside body tag
+
+
+</body>
+
+</html>

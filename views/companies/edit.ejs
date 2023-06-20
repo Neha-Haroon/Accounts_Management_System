@@ -1,0 +1,49 @@
+<% layout('layouts/boilerplate')%>
+<h2>Edit <%= company.company_Name %> Company</h2>
+
+
+<form action="/companies/<%=company._id%>?_method=PUT" method="POST" class="form">
+
+    <!-- company id -->
+    <label for="company_id">company id</label>
+    <input type="number" id="company_ID" name="company_ID" placeholder="Account No." value="<%=company.company_ID%>">
+    <!-- ============= S. NO.============= -->
+
+    <br>
+
+    <!-- company name -->
+    <label for="company_Name">company name</label>
+    <input type="text" id="company_Name" name="company_Name" placeholder="Company Name"
+        value="<%=company.company_Name%>">
+
+    <br>
+
+    <!-- net income -->
+    <label for="net_income_from_statment">net income form statement</label>
+    <input type="number" id="net_income_from_statment" name="net_income_from_statment" placeholder="$ Amount"
+        value="<%=company.net_income_from_statment%>">
+
+    <br>
+
+    <!-- owner capital -->
+    <label for="owner_capital_from_statement">owner capital from statement</label>
+    <input type="number" id="owner_capital_from_statement" name="owner_capital_from_statement" placeholder="$ Amount"
+        value="<%=company.owner_capital_from_statement%>">
+
+    <br>
+
+    <!-- balance -->
+    <label for="balanace_from_statment">balanace from statement</label>
+    <input type="number" id="balanace_from_statment" name="balanace_from_statment" placeholder="$ Amount"
+        value="<%=company.balanace_from_statment%>">
+
+    <br>
+
+    <button>Update</button>
+
+</form>
+<form action="/companies/<%=company._id%>?_method=DELETE" method="POST">
+    <button>Delete</button>
+</form>
+
+<a href="/companies/<%=company._id%>">Cancel Edit</a>

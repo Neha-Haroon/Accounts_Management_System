@@ -1,0 +1,50 @@
+<% layout('layouts/boilerplate')%>
+<h2>Edit Entry</h2>
+
+
+
+<form action="/entries/<%=entry._id%>?_method=PUT" method="POST" class="form">
+    <!-- 1 ENTRY -->
+
+    <label for="entry_ID">Entry Id</label>
+    <input type="number" id="entry_ID" name="entry_ID" placeholder="Entry No." value="<%= entry.entry_ID %>">
+    <!-- ============= S. NO.============= -->
+
+    <br>
+
+    <label for="flag">Select Flag</label>
+    <select name="flag" id="flag">
+        <% for(let flag of flags){ %>
+        <option value="<%=flag%>" <%=entry.flag===flag ? 'selected' : '' %>>
+            <%=flag%>
+        </option>
+        <% } %>
+    </select>
+
+    <br>
+    <label for="date">Entry Date</label>
+
+    <input type="date" name="date" id="date" placeholder="Entry Date" value="<%= entry.date %>">
+    <!-- ============= DATE ============= -->
+
+
+    <br>
+    <label for="debit">debit</label>
+    <input id="debit" name="debit" type="number" placeholder="debit" value="<%=entry.debit  %>">
+    <!-- DEBIT -->
+
+    <label for="credit"></label>
+    <input id="credit" name="credit" type="number" placeholder="credit" value="<%=entry.credit %>">
+    <!-- CREDIT -->
+
+    <!-- PLUS ICON -->
+    <br>
+    <button>Update Entry</button>
+
+</form>
+
+<form action="/entries/<%=entry._id%>?_method=DELETE" method="POST">
+    <button>Delete</button>
+</form>
+
+<a href="/entries/<%=entry._id%>">Cancel Edit</a>

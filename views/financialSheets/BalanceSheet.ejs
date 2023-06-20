@@ -1,0 +1,221 @@
+<% layout('layouts/boilerplate')%>
+<% let sum_asset_debit = 0 %>
+<% let sum_asset_credit = 0 %>
+<% let sum_assets = 0 %>
+<% let sum_liability_debit = 0 %>
+<% let sum_liability_credit = 0 %>
+<% let sum_liability = 0 %>
+<% let sum_liability_ownercapital = 0 %>
+<% let balance = 0 %>
+<% let sum_ownercapital = company.owner_capital_from_statement %>
+<h2>Balance Sheet </h2>
+
+
+<table>
+    <thead>
+        <tr>
+            <th> ASSETS</th>
+        </tr>
+        <tr>
+            <th>Accounts Ids</th>
+            <th>Accounts & Explanations</th>
+            <th>Debit</th>
+            <th>Credit</th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        <% for (let account of assets_accounts) { %>
+
+        <tr>
+
+            <td><a href="/accounts/<%=account._id%>">
+                    <%= account.account_ID %>
+                </a>
+            </td>
+
+            <td>
+                <%= account.account_Name %>
+            </td>
+
+            <td>
+                $ <%= account.sum_Debited_Amount %>
+                <% sum_asset_debit += account.sum_Debited_Amount%>
+            </td>
+
+            <td>
+                $ <%= account.sum_Credited_Amount %>
+                <% sum_asset_credit += account.sum_Credited_Amount%>
+            </td>
+        </tr>
+
+        <% } %>
+        <tr>
+            <td>Total Assets:</td>
+            <td></td>
+            <td>
+                $ <%= sum_asset_debit %>
+            </td>
+            <td>
+                $ <%= sum_asset_credit %>
+            </td>
+        </tr>
+        <tr>
+            <td>balance</td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+            <% if (sum_asset_debit > sum_asset_credit) { %>
+            <td><%= sum_assets =  sum_asset_debit - sum_asset_credit%></td>
+            <% } else { %>
+            <td><%= sum_assets =  sum_asset_credit- sum_asset_debit%></td>
+            <% } %>
+        </tr>
+    </tbody>
+</table>
+<br>
+<h3>assets Balance = <%= sum_assets%></h3>
+<br>
+<h3> Liabilites & owner capital</h3>
+<table>
+    <thead>
+        <tr>
+            <th>LIABILITIES</th>
+        </tr>
+        <tr>
+            <th>Accounts Ids</th>
+            <th>Accounts & Explanations</th>
+            <th>Debit</th>
+            <th>credit</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% for (let account of liabilites_accounts) { %>
+
+        <tr>
+
+            <td><a href="/accounts/<%=account._id%>">
+                    <%= account.account_ID %>
+                </a>
+            </td>
+
+            <td>
+                <%= account.account_Name %>
+            </td>
+
+            <td>
+                $ <%= account.sum_Debited_Amount %>
+                <% sum_liability_debit += account.sum_Debited_Amount%>
+            </td>
+
+            <td>
+                $ <%= account.sum_Credited_Amount %>
+                <% sum_liability_credit += account.sum_Credited_Amount%>
+            </td>
+
+        </tr>
+
+        <% } %>
+        <tr>
+            <td>Total Liabilites:</td>
+            <td></td>
+            <td>$ <%= sum_liability_debit %></td>
+            <td>$ <%= sum_liability_credit %></td>
+        </tr>
+        <tr>
+            <td>balance</td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+            <% if (sum_liability_debit > sum_liability_credit) { %>
+            <td><%= sum_liability =  sum_asset_debit - sum_liability_credit%></td>
+            <% } else { %>
+            <td><%= sum_liability =  sum_liability_credit - sum_liability_debit%></td>
+            <% } %>
+        </tr>
+    </tbody>
+
+    <thead>
+        <tr>
+            <th>OWNER CAPITAL</th>
+        </tr>
+        <tr>
+            <th>Accounts Ids</th>
+            <th>Accounts & Explanations</th>
+            <th>debit</th>
+            <th>credit</th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        <% for (let account of owner_capital_accounts) { %>
+
+        <tr>
+
+            <td><a href="/accounts/<%=account._id%>">
+                    <%= account.account_ID %>
+                </a>
+            </td>
+
+            <td>
+                <%= account.account_Name %>
+            </td>
+
+            <td>
+                $ <%=sum_ownercapital %>
+            </td>
+
+
+
+        </tr>
+
+        <% } %>
+        <tr>
+            <td>Total Owner Capital:</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <%=  sum_ownercapital%>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>balance</td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+
+            <td><%= sum_liability_ownercapital =  sum_ownercapital +  sum_liability%></td>
+        </tr>
+
+    </tbody>
+</table>
+
+<br>
+<h3>ownercapital & liabilites Balance = <%= sum_liability_ownercapital%></h3>
+
+
+<% if (sum_assets === sum_liability_ownercapital){ %>
+<% balance =  sum_assets%>
+<h2 class="success">balanced</h2>
+<%} else { %>
+<h2 class="danger">not balanced</h2>
+<% } %>
+</h2>
+
+
+<h2>Submit balance to Company</h2>
+<form action="/companies/<%=company._id%>?_method=PUT" method="POST">
+
+    <label for="balanace_from_statement">Balance: </label>
+    <input type="number" name="balanace_from_statement" id="balanace_from_statement" value="<%= balance %>">
+
+    <button>Save</button>
+</form>

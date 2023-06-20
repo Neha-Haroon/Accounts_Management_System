@@ -1,0 +1,186 @@
+<% layout('layouts/boilerplate')%>
+<% let account_balance = 0 %>
+<h2> <%= account.account_Name%> Account</h2>
+<table>
+    <thead>
+        <tr>
+            <th>account ID</th>
+            <th>account Name</th>
+            <th>company name</th>
+            <th>major head</th>
+            <th>Initial Debit</th>
+            <th>Initial Credit</th>
+            <th>sum Debited </th>
+            <th>sum Credited </th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td>
+                <%= account.account_ID %>
+            </td>
+
+            <td>
+                <%= account.account_Name %>
+
+            </td>
+
+            <td>
+                <%= account.company_name %>
+
+            </td>
+
+            <td><a href="/accounts?major_head=<%=account.major_head %>">
+                    <%=account.major_head %>
+                </a>
+            </td>
+
+            <td>
+                $ <%= account.initial_Debited_Amount %>
+            </td>
+
+            <td>
+                $ <%= account.initial_Credited_Amount %>
+            </td>
+
+            <td>
+                $ <%= account.sum_Debited_Amount %>
+            </td>
+
+            <td>
+                $ <%= account.sum_Credited_Amount %>
+            </td>
+        </tr>
+
+
+    </tbody>
+</table>
+<br>
+
+<!-- DISPLAY ENTRIES FOR THIS COMPANY -->
+<table>
+    <thead>
+        <tr>
+            <th>Entry no.</th>
+            <th>FLAG </th>
+            <th>DEBIT</th>
+            <th>CREDIT</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- initialize account sums -->
+        <%  let account_credit_sum = 0 %>
+        <%  let account_debit_sum = 0 %>
+        <tr>
+            <td>initials</td>
+            <td></td>
+            <td>
+                $ <%= account.initial_Debited_Amount %>
+                <% account_debit_sum += account.initial_Debited_Amount %>
+            </td>
+            <td>
+                $ <%= account.initial_Credited_Amount %>
+                <% account_credit_sum += account.initial_Credited_Amount %>
+            </td>
+        </tr>
+        <!-- LOOP OVER ALL ENTRIES -->
+        <% for (entry of entries){ %>
+
+        <tr>
+
+            <!-- if entry is of this account then ok insert  -->
+            <% if (entry.account_name === account.account_Name ) {%>
+
+            <td><%= entry.entry_ID %></td>
+            <td><%= entry.flag %></td>
+            <td>$<%= entry.debit %></td>
+
+            <!-- add to account debit sum -->
+            <% account_debit_sum +=  entry.debit%>
+
+            <td>$ <%= entry.credit %></td>
+
+            <!-- add to account credit sum -->
+            <% account_credit_sum +=  entry.credit%>
+
+            <% } %>
+        </tr>
+
+        <% } %>
+        <tr>
+            <td>Sum :</td>
+            <td></td>
+            <td> $ <%= account_debit_sum %></td>
+            <td> $ <%= account_credit_sum %></td>
+        </tr>
+        <tr>
+            <td>Account Balance :</td>
+            <!-- if sum of debit > sum of credit ? display difference in debit : display difference in credit -->
+            <% if (account_debit_sum > account_credit_sum ) { %>
+            <td>$ <%= account_debit_sum - account_credit_sum %></td>
+            <td></td>
+            <% } else {%>
+            <td></td>
+            <td><%= account_balance =  account_credit_sum  - account_debit_sum%></td>
+
+            <% } %>
+
+        </tr>
+    </tbody>
+</table>
+
+
+<a href="/accounts/">All Accounts</a>
+<a href="/accounts/<%=account._id%>/edit">Edit Account</a>
+<form action="/accounts/<%=account._id%>?_method=DELETE" method="POST">
+    <button>Delete</button>
+</form>
+
+
+<h2>Add An Entry</h2>
+<br>
+<form action="/accounts/<%=account._id%>/entries" method="POST" class="form">
+
+    <label for="entry_ID">Entry id</label>
+    <input type="number" id="entry_ID" name=entry[entry_ID]" placeholder="Entry No.">
+    <!-- ============= S. NO.============= -->
+
+    <br>
+
+    <label for="flag">Select Flag:</label>
+    <select name=entry[flag]" id="flag">
+        <% for(let flag of flags){ %>
+        <option value="<%=flag%>">
+            <%=flag%>
+        </option>
+        <% } %>
+    </select>
+
+    <br>
+
+    <label for="date">Entry Date:</label>
+    <input type="date" name="entry[date]" id="date" placeholder="Entry Date">
+    <!-- ============= DATE ============= -->
+
+
+
+    <br>
+
+    <label for="debit">Debit:</label>
+    <input id="debit" name=entry[debit]" type="number" placeholder="debit">
+    <!-- DEBIT -->
+
+    <br>
+
+    <label for="credit">Credit: </label>
+    <input id="credit" name=entry[credit]" type="number" placeholder="credit">
+    <!-- CREDIT -->
+
+    <!-- PLUS ICON -->
+    <br><br>
+    <button>Add Entry</button>
+
+
+</form>

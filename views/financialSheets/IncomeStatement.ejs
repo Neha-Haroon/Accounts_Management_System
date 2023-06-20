@@ -1,0 +1,160 @@
+<% layout('layouts/boilerplate')%>
+<%let  revenue_sum_Credited_Amount =0 %>
+<%let  revenue_sum_Debited_Amount =0 %>
+<%let  revenue =0 %>
+
+<%let  expense_sum_Credited_Amount =0 %>
+<%let  expense_sum_Debited_Amount =0 %>
+<%let  expense =0 %>
+<% let net_income = 0 %>
+
+<h2>Income Statement </h2>
+<h3>Revenues</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>S. No.</th>
+            <th>Accounts Ids</th>
+            <th>Accounts & Explanations</th>
+            <th>Debit</th>
+            <th>Credit</th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        <% for (let account of revenue_accounts) { %>
+
+        <tr>
+            <td></td>
+
+            <td><a href="/accounts/<%=account._id%>">
+                    <%= account.account_ID %>
+                </a>
+            </td>
+
+            <td>
+                <%= account.account_Name %>
+            </td>
+
+            <td>$
+                <%= account.sum_Debited_Amount %>
+                <%revenue_sum_Debited_Amount += account.sum_Debited_Amount %>
+            </td>
+
+            <td>$ <%= account.sum_Credited_Amount %>
+                <% revenue_sum_Credited_Amount += account.sum_Credited_Amount%>
+            </td>
+        </tr>
+
+        <% } %>
+        <tr>
+            <td>Sum:</td>
+            <td></td>
+            <td></td>
+            <td>$ <%= revenue_sum_Debited_Amount %></td>
+            <td>$ <%= revenue_sum_Credited_Amount %></td>
+
+        </tr>
+        <tr>
+            <td>Total Revenue:</td>
+            <td></td>
+            <td></td>
+
+            <% if (revenue_sum_Debited_Amount  > revenue_sum_Credited_Amount ) {%>
+            <td>$ <%=revenue = revenue_sum_Debited_Amount - revenue_sum_Credited_Amount  %></td>
+            <td></td>
+
+            <% } else {%>
+            <td></td>
+            <td>$ <%= revenue=  revenue_sum_Credited_Amount - revenue_sum_Debited_Amount  %></td>
+
+            <%} %>
+        </tr>
+    </tbody>
+</table>
+
+
+<h3>Expense</h3>
+<table>
+    <thead>
+        <tr>
+            <th>S. No.</th>
+            <th>Accounts Ids</th>
+            <th>Accounts & Explanations</th>
+            <th>$ </th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        <% for (let account of expense_accounts) { %>
+
+        <tr>
+            <td></td>
+
+            <td><a href="/accounts/<%=account._id%>">
+                    <%= account.account_ID %>
+                </a>
+            </td>
+
+            <td>
+                <%= account.account_Name %>
+            </td>
+
+            <td>$
+                <%= account.sum_Debited_Amount %>
+                <%expense_sum_Debited_Amount += account.sum_Debited_Amount %>
+            </td>
+
+            <td>$ <%= account.sum_Credited_Amount %>
+                <% expense_sum_Credited_Amount += account.sum_Credited_Amount%>
+            </td>
+        </tr>
+
+        <% } %>
+        <tr>
+            <td>Sum:</td>
+            <td></td>
+            <td></td>
+            <td>$ <%= expense_sum_Debited_Amount %></td>
+            <td>$ <%= expense_sum_Credited_Amount %></td>
+
+        </tr>
+        <tr>
+            <td>Total Expense:</td>
+            <td></td>
+            <td></td>
+
+            <% if (expense_sum_Debited_Amount  > expense_sum_Credited_Amount ) {%>
+            <td>$ <%=expense = expense_sum_Debited_Amount - expense_sum_Credited_Amount  %></td>
+            <td></td>
+
+            <% } else {%>
+            <td></td>
+            <td>$ <%= expense=  expense_sum_Credited_Amount - expense_sum_Debited_Amount  %></td>
+
+            <%} %>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Net Income = <%= net_income = revenue - expense%></h3>
+
+
+<% if (net_income > 0){ %>
+<h2 class="success">Profit</h2>
+<%} else { %>
+<h2 class="danger">Loss</h2>
+<% } %>
+</h2>
+
+<h2>Submit Net Income to Company</h2>
+<form action="/companies/<%=company._id%>?_method=PUT" method="POST">
+
+    <label for="net_income_from_statment">net income</label>
+    <input type="number" name="net_income_from_statment" id="net_income_from_statment" value="<%= net_income %>">
+
+    <button>Save</button>
+</form>

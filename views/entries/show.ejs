@@ -1,0 +1,62 @@
+<% layout('layouts/boilerplate')%>
+<h2>
+    <%=flag %> Entries
+</h2>
+<table>
+    <thead>
+        <tr>
+            <th> S. no. </th>
+            <th> Flag </th>
+            <th> Date </th>
+            <th> Accounts & Explanation </th>
+            <th> Debit </th>
+            <th> Credit </th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <% for(let entry of entries) { %>
+        <tr>
+            <td><a href="/entries/<%=entry._id%>">
+                    <%= entry.entry_ID %>
+                </a>
+            </td>
+
+            <td><a href="/entries?flag=<%= entry.flag%>">
+                    <%= entry.flag %>
+                </a>
+            </td>
+
+            <td>
+                <%= entry.date %>
+            </td>
+
+            <td>
+                <%= entry.account_name %>
+            </td>
+
+            <td>
+                <%= entry.debit %>
+            </td>
+
+            <td>
+                <%= entry.credit %>
+            </td>
+
+            <td>
+                <a href="/entries/<%=entry._id%>/edit">
+                    Edit
+                </a>
+            </td>
+
+            <td>
+                <form action="/entries/<%=entry._id%>?_method=DELETE" method="POST">
+                    <button>Delete</button>
+                </form>
+            </td>
+
+        </tr>
+        <% } %>
+    </tbody>
+</table>

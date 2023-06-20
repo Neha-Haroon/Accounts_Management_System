@@ -1,0 +1,38 @@
+<% layout('layouts/boilerplate')%>
+
+    <h2> Genreal Journal Entries</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>S. no.</th>
+                <th>Date</th>
+                <th>Account ID</th>
+                <th>Accounts & Explanation</th>
+                <th>Debit</th>
+                <th>Credit</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% for (let entry of generalJournalEntries) { %>
+                <tr>
+                    <td>
+                        <%= entry.entry_Num %>
+                    </td>
+                    <td></td>
+                    <td>
+                        <%= entry.account_ID %>
+                    </td>
+                    <td>
+                        <%= entry.account_Name %>
+                    </td>
+                    <td>
+                        <%= entry.debit %>
+                    </td>
+                    <td>
+                        <%= entry.credit %>
+                    </td>
+                </tr>
+                <% } %>
+        </tbody>
+    </table>

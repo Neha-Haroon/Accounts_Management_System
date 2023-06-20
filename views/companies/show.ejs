@@ -1,0 +1,45 @@
+<% layout('layouts/boilerplate')%>
+
+<h2> All Companies</h2>
+<table>
+    <thead>
+        <tr>
+            <th>company ID</th>
+            <th>company Name</th>
+            <th>net income</th>
+            <th>owner capital </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% for (let company of Companies) { %>
+
+        <tr>
+            <td>
+                <%= company.company_ID %>
+            </td>
+
+            <td><a href="/companies/<%=company._id%>">
+                    <%= company.company_Name %>
+                </a>
+            </td>
+
+            <td>
+                <%= company.net_icome_from_statment %>
+            </td>
+
+            <td>
+                <%= company.owner_capital_from_statement %>
+            </td>
+
+            <td><a href="/companies/<%=company._id%>/edit">Edit</a></td>
+            <td>
+                <form action="/companies/<%=company._id%>?_method=DELETE" method="POST">
+                    <button>Close</button>
+                </form>
+            </td>
+        </tr>
+
+        <% } %>
+    </tbody>
+</table>

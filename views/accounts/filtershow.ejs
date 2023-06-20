@@ -1,0 +1,76 @@
+<% layout('layouts/boilerplate')%>
+
+<h2>
+    <%= major_head%> Accounts
+</h2>
+<table>
+    <thead>
+        <tr>
+            <th>account id</th>
+            <th>account Name</th>
+            <th>company name</th>
+            <th>major head</th>
+            <th>sum Debited</th>
+            <th>sum Credited</th>
+            <th>status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% for (let account of accounts) { %>
+
+        <tr>
+            <td>
+                <%= account.account_ID %>
+            </td>
+
+            <td><a href="/accounts/<%=account._id%>">
+                    <%= account.account_Name %>
+                </a>
+            </td>
+            <td>
+                <a href="/accounts?account_name=<%=account.account_name %>">
+                    <%= account.company_name%></a>
+            </td>
+
+            <td><a href="/accounts?major_head=<%=account.major_head %>">
+                    <%= account.major_head %></a>
+            </td>
+
+
+
+            <td>
+                <%= account.sum_Debited_Amount %>
+            </td>
+
+            <td>
+                <%= account.sum_Credited_Amount %>
+            </td>
+            <td <% if (account.isActive ==true)  {%> class="success" <% } else { %> class="danger" <% } %>>
+
+                <% if (account.isActive ==true) {%>
+                Active
+                <% } else {%>
+                Non Active
+                <% } %>
+            </td>
+
+            <td>
+                <a href="/accounts/<%=account._id%>/edit">Edit</a>
+            </td>
+
+            <td>
+                <form action="/accounts/<%=account._id%>/close?_method=PUT" method="POST">
+                    <button>Close</button>
+                </form>
+            </td>
+            <td>
+                <form action="/accounts/<%=account._id%>?_method=DELETE" method="POST">
+                    <button>delete</button>
+                </form>
+            </td>
+        </tr>
+
+        <% } %>
+    </tbody>
+</table>
